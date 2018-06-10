@@ -2,8 +2,10 @@ version: "2"
 services:
   master:
     image: jenkins/jenkins
+    restart: always
     ports:
-    - 80:8080
+    - "80:8080"
+    - "50000:50000"
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     volumes:
@@ -18,6 +20,8 @@ services:
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
+    command: url http://build.cambio.se 9342fb2b08caeb4e6643afa29609e346a24a08331ab0f38cc98733de0d2cf284 jnlp-docker-slave
+    restart: always
     volumes:
     - jenkins-worker1:/var/jenkins_home/worker
 
@@ -30,6 +34,8 @@ services:
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
+    command: url http://build.cambio.se 9342fb2b08caeb4e6643afa29609e346a24a08331ab0f38cc98733de0d2cf284 jnlp-docker-slave
+    restart: always
     volumes:
     - jenkins-worker2:/var/jenkins_home/worker
 
