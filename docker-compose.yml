@@ -1,0 +1,39 @@
+version: "2"
+services:
+  master:
+    image: jenkins/jenkins
+    ports:
+    - "80:8080"
+    environment:
+    - JAVA_OPTS= -Djenkins.install.runSetupWizard=false
+    volumes:
+    - jenkins-master:/var/jenkins_home
+
+  worker1:
+    image: jenkinsci/jnlp-slave
+    environment:
+    - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    - JENKINS_MASTER=https://github.com/adaffner/test.git
+    - JENKINS_NAME=worker1
+    - JENKINS_USER=arthur
+    - JENKINS_PASS=password
+    - JENKINS_RETRY=10
+    volumes:
+    - jenkins-worker1:/var/jenkins_home/worker
+
+  worker2:
+    image: jenkinsci/jnlp-slave
+    environment:
+    - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    - JENKINS_MASTER=https://github.com/adaffner/test.git
+    - JENKINS_NAME=worker2 
+    - JENKINS_USER=arthur
+    - JENKINS_PASS=password
+    - JENKINS_RETRY=10
+    volumes:
+    - jenkins-worker2:/var/jenkins_home/worker
+
+volumes:
+  jenkins-master:
+  jenkins-worker1:
+  jenkins-worker2:
