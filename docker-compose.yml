@@ -9,23 +9,28 @@ services:
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     volumes:
-    - jenkins-master:/var/jenkins_home
+    - ./init_groovy:/var/jenkins_home/init.groovy.d
 
   worker1:
     image: jenkinsci/jnlp-slave
+    depends_on:
+    - master
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-    - JENKINS_MASTER=https://github.com/adaffner/automated-build-deploy.git
+    - JENKINS_MASTER=https://master:8080
     - JENKINS_NAME=worker1
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
     restart: always
+    command: -c "javaws http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com/computer/worker1/slave-agent.jnlp"
     volumes:
     - jenkins-worker1:/var/jenkins_home/worker
 
   worker2:
     image: jenkinsci/jnlp-slave
+    depends_on:
+    - master
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     - JENKINS_MASTER=https://github.com/adaffner/automated-build-deploy.git
@@ -34,6 +39,7 @@ services:
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
     restart: always
+    command: -c "javaws http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com/computer/worker1/slave-agent.jnlp"
     volumes:
     - jenkins-worker2:/var/jenkins_home/worker
 
