@@ -3,7 +3,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
-  node{
+  node {
     stage ('Build') {
 
       git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
@@ -19,7 +19,8 @@ pipeline {
        // Run the maven build
        sh "mvn clean install"
 
-     } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe & FindBugs reports...
+      } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe & FindBugs reports...
+    }
   }
   stages {
     stage('build hello world'){
