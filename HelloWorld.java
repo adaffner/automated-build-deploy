@@ -1,6 +1,8 @@
+package de.audi.arthur
+
 public class HelloWorld 
 {
- 
+      
        public static void main (String[] args)
        {
              // Ausgabe Hello World! in file
