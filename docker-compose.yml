@@ -3,9 +3,9 @@ services:
   master:
     image: jenkins/jenkins
     ports:
-    - "80:8080"
+    - 80:8080
     environment:
-    - JAVA_OPTS= -Djenkins.install.runSetupWizard=false
+    - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     volumes:
     - jenkins-master:/var/jenkins_home
 
