@@ -3,8 +3,8 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
-  stages ('Build') {
-    stage {
+  stages {
+    stage ('Build') {
           
       git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
 
@@ -21,7 +21,7 @@ pipeline {
 
       } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe & FindBugs reports...
     }
-    stage('build hello world'){
+    stage ('build hello world') {
       steps{
         sh 'mvn -B -DskipTests clean package'
       }
