@@ -1,15 +1,15 @@
 pipeline {
   agent any
+   tools {
+     maven 'apache-maven-3.3.9'
+  }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
     stage ('build hello world') {
       steps {
-        def mvn_version = 'M3'
-        withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
-            sh 'mvn -B -DskipTests clean package'
-        }
+        sh 'mvn -B -DskipTests clean package'
       }
     }
   }
