@@ -5,12 +5,11 @@ pipeline {
   }
   stages {
     stage ('build hello world') {
-      steps ('maven build') {
+      steps {
         def mvn_version = 'M3'
-        withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] )
-      }
-      steps ('build java app') {
-          sh 'mvn -B -DskipTests clean package'
+        withEnv( ["PATH+MAVEN=${tool mvn_version}/bin"] ) {
+            sh 'mvn -B -DskipTests clean package'
+        }
       }
     }
   }
