@@ -2,6 +2,7 @@ import jenkins.model.*
 import java.util.logging.Logger
 
 // list of plugins to be installed
+def plugins = [] 
 def logger = Logger.getLogger("")
 def installed = false
 def initialized = false
