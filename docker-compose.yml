@@ -1,62 +1,62 @@
-`version: "2"
+version: "2"
 services:
-master:
-image: jenkins/jenkins
-restart: always
-ports:
-- 8080:8080
-- 50000:50000
-environment:
-- JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-volumes:
-- /tmp/init_groovy:/var/jenkins_home/init.groovy.d
+  master:
+    image: jenkins/jenkins
+    restart: always
+    ports:
+    - 8080:8080
+    - 50000:50000
+    environment:
+    - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    volumes:
+    - /tmp/init_groovy:/var/jenkins_home/init.groovy.d
 
-worker1:
-image: jenkinsci/jnlp-slave
-depends_on:
-- master
-links:
-- master
-environment:
-- JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-- JENKINS_NAME=worker1
-- JENKINS_USER=arthur
-- JENKINS_PASS=password
-- JENKINS_RETRY=10
-- JENKINS_URL=http://master:8080
-- JENKINS_AGENT_NAME=build
-- JENKINS_AGENT_WORKDIR=/home/jenkins
-command: -c "JENKINS_SECRET=`curl -s $$JENKINS_URL/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
-java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"$$JENKINS_SECRET\" $$JENKINS_AGENT_NAME"
-entrypoint: /bin/bash
-restart: always
-volumes:
-- jenkins-worker1:/var/jenkins_home/worker
+  worker1:
+    image: jenkinsci/jnlp-slave
+    depends_on:
+    - master
+    links:
+    - master
+    environment:
+    - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    - JENKINS_NAME=worker1
+    - JENKINS_USER=arthur
+    - JENKINS_PASS=password
+    - JENKINS_RETRY=10
+    - JENKINS_URL=http://master:8080
+    - JENKINS_AGENT_NAME=build
+    - JENKINS_AGENT_WORKDIR=/home/jenkins
+    command: -c "JENKINS_SECRET=`curl -s $$JENKINS_URL/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
+      java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"$$JENKINS_SECRET\" $$JENKINS_AGENT_NAME"
+    entrypoint: /bin/bash
+    restart: always
+    volumes:
+    - jenkins-worker1:/var/jenkins_home/worker
 
-worker2:
-image: jenkinsci/jnlp-slave
-depends_on:
-- master
-links:
-- master
-environment:
-- JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-- JENKINS_NAME=worker2
-- JENKINS_USER=arthur
-- JENKINS_PASS=password
-- JENKINS_RETRY=10
-- JENKINS_URL=http://master:8080
-- JENKINS_AGENT_NAME=run
+  worker2:
+    image: jenkinsci/jnlp-slave
+    depends_on:
+    - master
+    links:
+    - master
+    environment:
+    - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    - JENKINS_NAME=worker2
+    - JENKINS_USER=arthur
+    - JENKINS_PASS=password
+    - JENKINS_RETRY=10
+    - JENKINS_URL=http://master:8080
+    - JENKINS_AGENT_NAME=run
 
-- JENKINS_AGENT_WORKDIR=/home/jenkins
-restart: always
-entrypoint: /bin/bash
-command: -c "JENKINS_SECRET=`curl -s $$JENKINS_URL/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
-java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"$$JENKINS_SECRET\" $$JENKINS_AGENT_NAME"
-volumes:
-- jenkins-worker2:/var/jenkins_home/worker
+    - JENKINS_AGENT_WORKDIR=/home/jenkins
+    restart: always
+    entrypoint: /bin/bash
+    command: -c "JENKINS_SECRET=`curl -s $$JENKINS_URL/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
+      java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"$$JENKINS_SECRET\" $$JENKINS_AGENT_NAME"
+    volumes:
+    - jenkins-worker2:/var/jenkins_home/worker
 
 volumes:
-jenkins-master:
-jenkins-worker1:
-jenkins-worker2:
+  jenkins-master:
+  jenkins-worker1:
+  jenkins-worker2:
