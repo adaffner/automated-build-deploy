@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:2.124-alpine
-LABEL maintainer "tuan-huy.la@audi.de"
+LABEL maintainer "arthur.daffner@audi.de"
  
 USER root
  
