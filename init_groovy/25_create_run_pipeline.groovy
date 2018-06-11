@@ -2,6 +2,8 @@ import hudson.plugins.git.*
 import jenkins.model.Jenkins
 import java.util.logging.Logger
 
+sleep(30000)
+
 def logger = Logger.getLogger("")
 
 def scm = new GitSCM("https://github.com/adaffner/automated-build-deploy.git")
