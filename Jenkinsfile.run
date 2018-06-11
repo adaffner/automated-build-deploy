@@ -1,0 +1,15 @@
+node ('run') {
+  stage('Run') {
+     // Fetch from last succesfull build artifact
+     sh 'wget http://jenkinsmaster:8080/job/helloworld_build/lastSuccessfulBuild/artifact/build/distributions/HelloWorld.tar -O HelloWorld.tar'
+
+     // Unpack archive
+     sh 'tar xfv HelloWorld.tar'
+
+     // Run app
+     sh 'HelloWorld/bin/HelloWorld'
+     
+     // Show contents of output file
+     sh 'cat hello-world.txt'
+  }
+}
