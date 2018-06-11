@@ -4,7 +4,7 @@ services:
     image: jenkins/jenkins
     restart: always
     ports:
-    - 80:8080
+    - 8080:8080
     - 50000:50000
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
@@ -23,7 +23,7 @@ services:
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
-    - JENKINS_URL=http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com:8080
+    - JENKINS_URL=http://master:8080
     - JENKINS_AGENT_NAME=build
     - JENKINS_AGENT_WORKDIR=/home/jenkins
     entrypoint: /bin/bash
@@ -44,7 +44,7 @@ services:
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
-    - JENKINS_URL=http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com:8080
+    - JENKINS_URL=http://master:8080
     - JENKINS_AGENT_NAME=build
     - JENKINS_AGENT_WORKDIR=/home/jenkins
     entrypoint: /bin/bash
