@@ -1,7 +1,8 @@
 version: "2"
 services:
   master:
-    image: jenkins/jenkins
+    build: .
+    image: audi/jenkins
     restart: always
     ports:
     - 8080:8080
@@ -10,7 +11,7 @@ services:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     volumes:
     - /tmp/init_groovy:/var/jenkins_home/init.groovy.d
-
+ 
   worker1:
     image: jenkinsci/jnlp-slave
     depends_on:
@@ -32,7 +33,7 @@ services:
     restart: always
     volumes:
     - jenkins-worker1:/var/jenkins_home/worker
-
+ 
   worker2:
     image: jenkinsci/jnlp-slave
     depends_on:
@@ -47,7 +48,7 @@ services:
     - JENKINS_RETRY=10
     - JENKINS_URL=http://master:8080
     - JENKINS_AGENT_NAME=run
-
+ 
     - JENKINS_AGENT_WORKDIR=/home/jenkins
     restart: always
     entrypoint: /bin/bash
@@ -55,7 +56,7 @@ services:
       java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"$$JENKINS_SECRET\" $$JENKINS_AGENT_NAME"
     volumes:
     - jenkins-worker2:/var/jenkins_home/worker
-
+ 
 volumes:
   jenkins-master:
   jenkins-worker1:
