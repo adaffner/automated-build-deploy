@@ -27,8 +27,7 @@ services:
     - JENKINS_AGENT_NAME=build
     - JENKINS_AGENT_WORKDIR=/home/jenkins
     entrypoint: /bin/bash
-    command: -c "JENKINS_SECRET=`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
-                 java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL $$JENKINS_SECRET $$JENKINS_AGENT_NAME"
+    command: -c "java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1`"
     restart: always
     volumes:
     - jenkins-worker1:/var/jenkins_home/worker
@@ -50,8 +49,7 @@ services:
     - JENKINS_AGENT_WORKDIR=/home/jenkins
     entrypoint: /bin/bash
     restart: always
-    command: -c "JENKINS_SECRET=`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
-                 java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL $$JENKINS_SECRET $$JENKINS_AGENT_NAME"
+    command: -c "java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL \"`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1`"
     volumes:
     - jenkins-worker2:/var/jenkins_home/worker
 
