@@ -22,9 +22,12 @@ services:
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
+    - JENKINS_URL=http://jenkinsmaster:8080
+    - JENKINS_AGENT_NAME=build
+    - JENKINS_AGENT_WORKDIR=/home/jenkins
+    command: -c "JENKINS_SECRET=`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
+                 java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL $$JENKINS_SECRET $$JENKINS_AGENT_NAME"
     restart: always
-    command: -c "curl -s http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com/computer/worker1/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
-                 java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_MASTER run"
     volumes:
     - jenkins-worker1:/var/jenkins_home/worker
 
@@ -39,9 +42,12 @@ services:
     - JENKINS_USER=arthur
     - JENKINS_PASS=password
     - JENKINS_RETRY=10
+    - JENKINS_URL=http://jenkinsmaster:8080
+    - JENKINS_AGENT_NAME=build
+    - JENKINS_AGENT_WORKDIR=/home/jenkins
     restart: always
-    command: -c "curl -s http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com/computer/worker1/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
-                 java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_MASTER run"
+    command: -c "JENKINS_SECRET=`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
+                 java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL $$JENKINS_SECRET $$JENKINS_AGENT_NAME"
     volumes:
     - jenkins-worker2:/var/jenkins_home/worker
 
