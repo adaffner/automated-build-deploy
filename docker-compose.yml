@@ -15,6 +15,8 @@ services:
     image: jenkinsci/jnlp-slave
     depends_on:
     - master
+    links:
+    - master
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     - JENKINS_NAME=worker1
@@ -24,6 +26,7 @@ services:
     - JENKINS_URL=http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com:8080
     - JENKINS_AGENT_NAME=build
     - JENKINS_AGENT_WORKDIR=/home/jenkins
+    entrypoint: /bin/bash
     command: -c "JENKINS_SECRET=`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
                  java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL $$JENKINS_SECRET $$JENKINS_AGENT_NAME"
     restart: always
@@ -34,6 +37,8 @@ services:
     image: jenkinsci/jnlp-slave
     depends_on:
     - master
+    links:
+    - master
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     - JENKINS_NAME=worker2 
@@ -42,8 +47,8 @@ services:
     - JENKINS_RETRY=10
     - JENKINS_URL=http://ec2-18-185-37-49.eu-central-1.compute.amazonaws.com:8080
     - JENKINS_AGENT_NAME=build
-    
     - JENKINS_AGENT_WORKDIR=/home/jenkins
+    entrypoint: /bin/bash
     restart: always
     command: -c "JENKINS_SECRET=`curl -s http://jenkinsmaster:8080/computer/$$JENKINS_AGENT_NAME/slave-agent.jnlp | grep -oP '(?<=<argument>).*?(?=</argument>)' | head -1` &&
                  java -cp /usr/share/jenkins/slave.jar hudson.remoting.jnlp.Main -headless -url $$JENKINS_URL $$JENKINS_SECRET $$JENKINS_AGENT_NAME"
