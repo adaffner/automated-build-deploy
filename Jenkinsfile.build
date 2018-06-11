@@ -1,0 +1,14 @@
+node ('build') {
+   stage('Prepare') {
+      // Get some code from a Git - gogs repository
+      git 'http://gogs:3000/marko/helloworld.git'
+    }
+
+   stage('Build') {
+      // Run the gradle build
+      sh './gradlew build'
+
+      // Archive built artifact
+      archiveArtifacts artifacts: 'build/distributions/HelloWorld.tar', onlyIfSuccessful: true
+   }
+}
