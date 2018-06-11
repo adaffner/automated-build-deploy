@@ -1,7 +1,7 @@
 node ('build') {
    stage('Prepare') {
-      // Get some code from a Git - gogs repository
-      git 'http://gogs:3000/marko/helloworld.git'
+      // Get some code from a Git repository
+      git 'https://github.com/adaffner/automated-build-deploy.git'
     }
 
    stage('Build') {
