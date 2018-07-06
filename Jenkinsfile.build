@@ -6,7 +6,7 @@ node ('build') {
 
    stage('Build') {
       // Run the gradle build
-      sh './gradlew build'
+      sh 'mvn -B -DskipTests clean package'
 
       // Archive built artifact
       archiveArtifacts artifacts: 'build/distributions/HelloWorld.tar', onlyIfSuccessful: true
