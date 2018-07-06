@@ -10,7 +10,7 @@ services:
     environment:
     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     volumes:
-    - /tmp/init_groovy:/var/jenkins_home/init.groovy.d
+    - ./init_groovy:/var/jenkins_home/init.groovy.d
  
   worker1:
     image: jenkinsci/jnlp-slave

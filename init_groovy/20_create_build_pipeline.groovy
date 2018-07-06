@@ -14,7 +14,6 @@ def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition
 def instance = Jenkins.instance
 def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(instance, "automated-build-deploy")
 job.definition = flowDefinition
-job.addTrigger(gogsTrigger)
 
 logger.info("$job job added")
 instance.reload()

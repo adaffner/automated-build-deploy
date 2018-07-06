@@ -1,7 +1,7 @@
 node ('run') {
   stage('Run') {
      // Fetch from last succesfull build artifact
-     sh 'wget http://jenkinsmaster:8080/job/helloworld_build/lastSuccessfulBuild/artifact/build/distributions/HelloWorld.tar -O HelloWorld.tar'
+     sh 'wget http://master:8080/job/helloworld_build/lastSuccessfulBuild/artifact/build/distributions/HelloWorld.tar -O HelloWorld.tar'
 
      // Unpack archive
      sh 'tar xfv HelloWorld.tar'
